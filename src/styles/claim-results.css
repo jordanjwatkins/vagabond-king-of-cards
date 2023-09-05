@@ -1,0 +1,84 @@
+.claim-results {
+    background: rgba(0,0,0,1);
+    background-color: #c3c9a7;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    /*pointer-events: none;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /*opacity: 0;
+    transition: opacity 0.2s;*/
+
+    transform: translateY(-200%);
+    transition: all 0.3s;
+}
+
+.claim-results.in {
+    transform: translateY(0);
+
+    opacity: 1;
+    /*pointer-events: none;*/
+
+    .results-text {
+        transform: translateY(0);
+    }
+}
+
+.results-text {
+    margin-bottom: 5vmin;
+    color: #85a731;
+    -webkit-text-stroke: 0.5vmin  #62620c;
+
+    font-size: 15vmin;
+    /*transform: translateY(-500%);*/
+    transition: all 0.3s;
+    transition-delay: 0.3s;
+    line-height: 0.9;
+
+    > div::first-letter {
+        font-size: 34vmin;
+        letter-spacing: -5vmin;
+    }
+}
+
+.results-text.false {
+    color: var(--game-color-1);
+    -webkit-text-stroke-color: #4e1212;
+    left: 5vmin;
+
+    :nth-child(2) {
+        left: -5vmin;
+    }
+}
+
+.results-text.missed {
+    color: var(--game-color-1);
+    -webkit-text-stroke-color: #4e1212;
+
+    :nth-child(1) {
+        &::first-letter {
+            letter-spacing: 0;
+        }
+        left: -4vmin;
+    }
+
+    left: 4vmin;
+}
+
+.results-text.stolen {
+    color: var(--game-color-1);
+    -webkit-text-stroke-color: #4e1212;
+
+    :nth-child(1) {
+        &::first-letter {
+            letter-spacing: -1vmin;
+        }
+    }
+}

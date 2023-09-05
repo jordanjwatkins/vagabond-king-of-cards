@@ -3,7 +3,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext
 let audioContext = false
 
 // Using 0 for values can break in some cases (ex. gain.exponentialRampToValue)
-const NEAR_ZERO = 0.001
+export const NEAR_ZERO = 0.001
 
 if (window.AudioContext) {
   audioContext = new window.AudioContext()
@@ -89,18 +89,23 @@ export default class JamKnote {
     this.noiseGain.gain.exponentialRampToValueAtTime(NEAR_ZERO, audioContext.currentTime + 1.2)
   }
 
-  makeOscillators(instrument = 'default') {
+  cardNoise() {
+    this.noiseGain.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.1)
+    this.noiseGain.gain.exponentialRampToValueAtTime(NEAR_ZERO, audioContext.currentTime + 0.5)
+  }
+
+  makeOscillators(instrument = 'default', groupGainNode) {
     if (instrument === 'ocarina') {
       return [
-        this.makeOscillator({ waveType: 'sine', detune1: 4, gain: 0.25 / 4, attack: 0.1, decay: 0.2, sustain: 0.6, release: 0.2 }),
-        this.makeOscillator({ waveType: 'triangle', detune1: 4.001, gain: 0.1 / 4, attack: 0.1, decay: 0.2, sustain: 0.3, release: 0.2 }),
+        this.makeOscillator({ waveType: 'sine', detune1: 4, gain: 0.25 / 4, attack: 0.1, decay: 0.2, sustain: 0.6, release: 0.2 }, groupGainNode),
+        this.makeOscillator({ waveType: 'triangle', detune1: 4.001, gain: 0.1 / 4, attack: 0.1, decay: 0.2, sustain: 0.3, release: 0.2 }, groupGainNode),
       ]
     }
 
     return [
-      this.makeOscillator({ waveType: 'triangle', detune1: 1, gain: 0.21, attack: 0.05, decay: 0.6, hold: 0.3, sustain: 0.6, release: 0.2 }),
-      this.makeOscillator({ waveType: 'triangle', detune1: 0.5, gain: 0.11, attack: 0.01, decay: 0.4, hold: 0.3, sustain: 0.5, release: 0.2 }),
-      this.makeOscillator({ waveType: 'square', detune1: 2, gain: 0.01, attack: 0.01, decay: 0.4, hold: 0.3, sustain: 0.1, release: 0.2 }),
+      this.makeOscillator({ waveType: 'triangle', detune1: 1, gain: 0.21, attack: 0.05, decay: 0.6, hold: 0.3, sustain: 0.6, release: 0.2 }, groupGainNode),
+      this.makeOscillator({ waveType: 'triangle', detune1: 0.5, gain: 0.11, attack: 0.01, decay: 0.4, hold: 0.3, sustain: 0.5, release: 0.2 }, groupGainNode),
+      this.makeOscillator({ waveType: 'square', detune1: 2, gain: 0.01, attack: 0.01, decay: 0.4, hold: 0.3, sustain: 0.1, release: 0.2 }, groupGainNode),
 
 
 
@@ -108,7 +113,7 @@ export default class JamKnote {
     ]
   }
 
-  makeOscillator(options = {}) {
+  makeOscillator(options = {}, groupGainNode) {
     const config = options || {}
     const oscillator = audioContext.createOscillator()
     const gainNode = audioContext.createGain()
@@ -130,7 +135,12 @@ export default class JamKnote {
     gainNode.gain.value = NEAR_ZERO
 
     oscillator.connect(gainNode)
-    gainNode.connect(this.mainGain)
+
+    if (groupGainNode) {
+      gainNode.connect(groupGainNode)
+    } else {
+      gainNode.connect(this.mainGain)
+    }
 
     return oscillator
   }
@@ -202,12 +212,12 @@ export default class JamKnote {
     return note
   }
 
-  playNote(note, options) {
+  playNote(note, options, groupGainNode) {
     if (!isAudioApiSupported()) return
 
     if (this.oscillators && this.oscillators.length) this.stopOscillators()
 
-    const oscillators = this.makeOscillators(options.instrument)
+    const oscillators = this.makeOscillators(options.instrument, groupGainNode)
 
     this.setOscillatorsFrequency(note.frequency, oscillators)
 

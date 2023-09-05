@@ -1,0 +1,175 @@
+.title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 8;
+    background-color: #c3c9a7;
+
+    &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 1vmin;
+        left: 1vmin;
+        right: 1vmin;
+        bottom: 1vmin;
+        border: 0.3vmin solid var(--game-color-2);
+        opacity: 0.5;
+    }
+}
+
+.title-text {
+    font-size: 12vmin;
+    color: #555;
+    margin-bottom: 5vh;
+    word-spacing: 1.4vh;
+    -webkit-text-stroke: 0.5vmin #333;
+
+    :is(span) {
+        display: inline-block;
+
+        &::first-letter {
+            font-size: 24vmin;
+        }
+    }
+
+    /*@media (min-aspect-ratio: 1) {
+        font-size: 18vmin;
+
+        :is(span) {
+            &::first-letter {
+                font-size: 20vmin;
+            }
+        }
+
+        .v {
+            &::first-letter {
+                letter-spacing: -2vmin;
+            }
+        }
+    }*/
+
+    .king {
+        color: #85a731;
+        -webkit-text-stroke-color: #62620c;
+    }
+
+    .v {
+        color: var(--game-color-1);
+        -webkit-text-stroke-color: #4e1212;
+        font-size: 10.5vmin;
+
+        &::first-letter {
+            letter-spacing: -5vmin;
+        }
+    }
+
+    .cards {
+        color: #3c3758;
+        -webkit-text-stroke-color: #0e153d;
+    }
+
+    .of {
+        font-size: 8vmin;
+
+        &::first-letter {
+            font-size: 8vmin;
+        }
+    }
+}
+
+.title-in-aside-wrap {
+    padding: 2vmin 2vmin 0 4vmin;
+
+    ::first-letter {
+        font-size: 7vmin;
+        letter-spacing: -0.5vmin;
+    }
+
+    .title-in-aside {
+        background: var(--paper-color);
+        padding: 0.4vmin;
+        border: 1vmin solid var(--game-color-3);
+        display: flex;
+
+        &:before {
+            content: "";
+            display: block;
+            width: calc(100% - 1vmin);
+            height: calc(100% - 1vmin);
+            position: absolute;
+            border: 0.2vmin solid var(--game-color-3);
+        }
+    }
+
+    .title-text {
+        font-size: 4vmin;
+        -webkit-text-stroke: 0.2vmin #333;
+        margin: 0 auto;
+        padding: 2vmin;
+        word-spacing: 0.4vh;
+    }
+
+    .v {
+        font-size: 4vmin;
+
+        &::first-letter {
+            font-size: 5vmin;
+            letter-spacing: -0.5vmin;
+        }
+    }
+
+    .king {
+        font-size: 4vmin;
+
+        &::first-letter {
+            font-size: 5vmin;
+            letter-spacing: -0.5vmin;
+        }
+    }
+
+    .of {
+        font-size: 2vmin;
+
+        &::first-letter {
+            font-size: 2vmin;
+            letter-spacing: 0;
+        }
+    }
+
+    .cards {
+        font-size: 4vmin;
+
+        &::first-letter {
+            font-size: 5vmin;
+            letter-spacing: -0.5vmin;
+        }
+    }
+}
+
+@media (max-aspect-ratio: 1.3) and (min-aspect-ratio: 1 / 1.3) {
+    .title-in-aside-wrap {
+        padding: 4vmin 2vmin 2vmin 2vmin;
+        height: 100%;
+    }
+
+    .title-in-aside {
+        height: 100%;
+    }
+}
+
+@media (max-aspect-ratio: 1 / 1.3) {
+    .title-in-aside-wrap {
+        padding: 4vmin 2vmin 2vmin 2vmin;
+        height: 100%;
+    }
+
+    .title-in-aside {
+        height: 100%;
+    }
+}

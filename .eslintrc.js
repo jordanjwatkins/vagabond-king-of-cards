@@ -21,11 +21,11 @@ module.exports = {
     sourceType: 'module'
   },
 
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: 'webpack.config.js',
-      },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
     }
   },
 
@@ -33,6 +33,7 @@ module.exports = {
     'class-methods-use-this': ['off'],
     'comma-dangle': ['error', 'always-multiline'],
     'consistent-return': ['off'],
+    'import/extensions': 0,
 
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: [

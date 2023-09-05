@@ -1,29 +1,20 @@
-import audio from './audio'
-import { getAllCombos } from './get-all-combos'
-// import audio from './audio-ana-ng';
+import Cards from './cards'
+import ClaimButton from './claim-button'
+import ClaimResults from './claim-results'
 import ImageFx from './libs/ImageFx'
+import MatchInfo from './match-info'
 import './styles/app.css'
-
-//audio({})
+import Timer from './timer'
+import title, { TitleCard } from './title'
 
 // Live Reload
 new EventSource('/esbuild').addEventListener('change', () => location.reload())
 
-const allCombos = getAllCombos()
-
-console.log('vagabond king!!', allCombos)
-
-// border color and pattern (instead of fill and image color)
-
-// unlock german suited deck?
-const div = document.createElement('div')
-
-document.body.appendChild(div)
-
+// Effects canvas
 const elCanvas = document.createElement('canvas')
 
-elCanvas.width = document.body.clientWidth
-elCanvas.height = document.body.clientHeight
+elCanvas.width = 500
+elCanvas.height = 300
 
 Object.assign(elCanvas.style, {
   position: 'absolute',
@@ -41,20 +32,60 @@ fx.vignette()
 fx.noise(0, 0)
 fx.noise(10, 10)
 
-const allCards = allCombos.map(combo => `<div class="card ${combo.join(' ')}"></div>`)
+const scene = {
+  claimStruck: false,
+}
 
-const shuffle = (arr) => arr.sort(() => (Math.random() > 0.5 ? -1 : 1));
+const elGameWrap = document.createElement('div')
 
-shuffle(allCards)
+elGameWrap.classList.add('game-wrap')
 
-div.innerHTML = allCards.slice(-9).join('')
+document.body.appendChild(elGameWrap)
 
-/*div.innerHTML = `
-<div class="card game-color-2"></div>
-<div class="card swords dotted game-color-1"></div>
-<div class="card swords two dotted game-color-3"></div>
-<div class="card swords one dashed game-color-2"></div>
-<div class="card coins dashed game-color-3 three"></div>
-<div class="card coins dashed game-color-3 two"></div>
-<div class="card coins dashed game-color-3 one"></div>
-`*/
+const elMain = document.createElement('div')
+
+elMain.classList.add('main')
+
+scene.cards = new Cards(elMain, scene)
+
+elGameWrap.appendChild(elMain)
+
+const elAside = document.createElement('div')
+
+elAside.classList.add('aside')
+
+scene.titleCard = new TitleCard(elAside, scene)
+scene.matchInfo = new MatchInfo(elAside, scene)
+scene.claimButton = new ClaimButton(elAside, scene)
+scene.timer = new Timer(scene.claimButton.el, scene)
+
+elGameWrap.appendChild(elAside)
+
+scene.claimResults = new ClaimResults(document.body, scene)
+
+title()
+
+const elWheel = document.createElement('div')
+
+elWheel.classList.add('wheel-wrap')
+
+elWheel.innerHTML = '<div class="wheel-card"><div class="travel-text">Traveling yonder...</div></div>'
+
+document.body.appendChild(elWheel)
+
+scene.showWheel = () => {
+  elWheel.classList.add('in')
+}
+
+scene.hideWheel = () => {
+  elWheel.classList.remove('in')
+}
+
+/*setTimeout(() => {
+ scene.showWheel()
+
+  setTimeout(() => {
+    scene.hideWheel()
+  }, 1000)
+
+}, 1000)*/

@@ -74,7 +74,7 @@ class ImageFx {
   noise(offsetX, offsetY) {
     if (!this.offCanvases['c1']) {
       // the noise canvases are a bit larger than the destination canvas so they can be offset randomly and still fill the destination canvas
-      const { canvas, context } = this.initOffCanvas({ key: 'c1', bgColor: '#FFF', width: this.canvas.width + 50, height: this.canvas.height + 50 })
+      const { canvas, context } = this.initOffCanvas({ key: 'c1', bgColor: '#FFF', width: 500, height: 300 })
 
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
 

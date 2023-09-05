@@ -1,0 +1,152 @@
+:root {
+    --t: 10;
+}
+
+@keyframes sand {
+    0% {
+        transform: translateY(0%);
+    }
+    50% {
+        transform: translateY(50%);
+
+    }
+    100% {
+        transform: translateY(100%);
+
+
+    }
+}
+
+@keyframes sand2 {
+    0% {
+        background-position-y: 0%;
+    }
+    100% {
+        background-position-y: 88%;
+
+
+    }
+}
+
+.timer-card-wrap {
+    position: absolute;
+    height: 80%;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    aspect-ratio: 1;
+
+    .timer-card {
+        transform: translateX(200%);
+        transition: 0.3s all;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1vmin;
+        width: calc(100% - 6vmin);
+        left: 4vmin;
+        background-color: var(--paper-color);
+        border: 2vmin solid var(--game-color-2);
+        box-shadow: 0 0 4px 0px rgba(0,0,0,0.8);
+    }
+
+    .timer-wrap {
+        width: 22vmin;
+
+        &:before {
+            content: '';
+            display: block;
+            height: 8.8vmin;
+            width: 0.7vmin;
+            left: 48%;
+            position: absolute;
+            bottom: 2vmin;
+            z-index: 1;
+            background: linear-gradient(0deg, #fff, #fff 50%, transparent 50%, transparent);
+            background-size: 20px 2vmin;
+            background-position-y: 0%;
+            animation: sand2 0.3s linear infinite forwards;
+        }
+
+    }
+
+    &.in .timer-card {
+        transform: translateX(0%);
+    }
+
+
+    &.flip .timer-wrap:before {
+        opacity: 0;
+    }
+
+    &.flip .timer {
+        transform: rotate3d(0, 0, 1, 180deg);
+    }
+
+    &.flipped .timer {
+        transform: rotate3d(0, 0, 1, 0deg);
+        transition: all 0s;
+    }
+
+    &.fg-flip .timer .timer-fg {
+        transform: rotate3d(0, 0, 1, 180deg);
+    }
+
+    .timer {
+        aspect-ratio: 0.88;
+        height: 100%;
+        background-color: #5f6f5e;
+        transform: rotate3d(0, 0, 1, 0deg);
+        transition: all 0.3s;
+
+        .timer-fg {
+            background: url(../assets/hourglass.png) no-repeat 0 0;
+            image-rendering: pixelated;
+            background-size: cover;
+            transition: all 0s;
+            aspect-ratio: 0.88;
+            height: 100%;
+            z-index: 2;
+            transform: translate3d(0,0,0);
+        }
+
+        &:before,
+        &:after {
+            display: block;
+            position: absolute;
+            left: 1.5vmin;
+            right: 1.5vmin;
+            content: '';
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        &:before {
+            bottom: 56%;
+            height: calc(35% - calc(var(--t) * 3.5%));
+        }
+
+        &:after {
+            bottom: 6%;
+            height: calc(2% + calc(var(--t) * 3.5%));
+        }
+    }
+}
+
+@media (max-aspect-ratio: 1.3) {
+    .timer-card-wrap {
+        width: 80%;
+        top: 54%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        .timer-card {
+            width: 100%;
+            left: 0;
+            transform: translateY(200%);
+        }
+    }
+}

@@ -1,4 +1,6 @@
-import { knote } from './libs/JamKnote'
+import { NEAR_ZERO, knote } from './libs/JamKnote'
+
+export const api = {}
 
 export default config => new Promise((resolve) => {
   config.knote = knote
@@ -14,7 +16,23 @@ export default config => new Promise((resolve) => {
 
     console.log('audio click2',)
 
-    // knote.fireNoise()
+    const songGainNode = knote.audioContext.createGain()
+
+    api.songGainNode = songGainNode
+
+    api.fadeOut = () => {
+      api.songGainNode.gain.setValueCurveAtTime([1, 0.9, NEAR_ZERO], knote.audioContext.currentTime, 1)
+    }
+
+    api.fadeIn = () => {
+      api.songGainNode.gain.setValueCurveAtTime([NEAR_ZERO, 1], knote.audioContext.currentTime, 0.5)
+    }
+
+    songGainNode.connect(knote.mainGain)
+
+    //knote.fireNoise()
+
+    //knote.cardNoise()
 
     const aLoop = (startTime) => {
       const now = knote.audioContext.currentTime
@@ -52,7 +70,7 @@ export default config => new Promise((resolve) => {
         const octave = Number(noteNameWOctave.slice(-1)) + octaveOffset
         const noteName = noteNameWOctave.slice(0, -1)
 
-        knote.playNote(knote.makeNote(`${noteName}${octave}`), { duration: 0.8 * durationMultiplier, delay: beatDelay(beatCount) })
+        knote.playNote(knote.makeNote(`${noteName}${octave}`), { duration: 0.8 * durationMultiplier, delay: beatDelay(beatCount) }, songGainNode)
 
         if (incrementBeat) beatCount += 1
       }
@@ -122,7 +140,7 @@ export default config => new Promise((resolve) => {
         const octave = Number(noteNameWOctave.slice(-1)) + octaveOffset
         const noteName = noteNameWOctave.slice(0, -1)
 
-        knote.playNote(knote.makeNote(`${noteName}${octave}`), { duration: 0.8 * durationMultiplier, delay: beatDelay(beatCount), instrument: 'ocarina' })
+        knote.playNote(knote.makeNote(`${noteName}${octave}`), { duration: 0.8 * durationMultiplier, delay: beatDelay(beatCount), instrument: 'ocarina' }, songGainNode)
 
         if (incrementBeat) beatCount += 1
       }
@@ -175,10 +193,10 @@ export default config => new Promise((resolve) => {
 
     config.medievalLoop2 ||= medievalLoop2(now)
 
-    resolve()
+    resolve({ songGainNode })
 
     setTimeout(() => {
       document.body.classList.add('audio-ready')
     }, 300)
-  })
+  }, { once: true })
 })
