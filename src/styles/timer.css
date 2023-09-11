@@ -146,7 +146,7 @@
         .timer-card {
             width: 100%;
             left: 0;
-            transform: translateY(200%);
+            transform: translateY(-200%);
         }
     }
 }

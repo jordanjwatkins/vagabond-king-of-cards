@@ -10,7 +10,8 @@ export default class MatchInfo {
 
     parent.appendChild(div)
 
-    this.el.innerHTML = '<div class="match-info"><div class="points-label">Tally</div><div class="points"></div></div>'
+    this.el.innerHTML =
+      '<div class="match-info"><div class="points-label">Tally</div><div class="points"></div></div>'
 
     this.elPoints = this.el.querySelector('.points')
 
@@ -18,22 +19,30 @@ export default class MatchInfo {
     this.scene.matchPoints = 1
 
     this.setMatchConfig({
-      matchPoints: this.scene.matchPoints
+      matchPoints: this.scene.matchPoints,
     })
 
-    /*setTimeout(() => {
+    /* setTimeout(() => {
       this.updateScore(1)
-    }, 1000);*/
+    }, 1000); */
 
-    this.el.addEventListener('click', () => {
+    this.el.addEventListener('click', () => {})
+  }
 
-    })
+  show() {
+    this.el.classList.remove('hidden')
+  }
+
+  hide() {
+    this.el.classList.add('hidden')
   }
 
   setMatchConfig(config = {}) {
     const matchPoints = config.matchPoints || 1
     const matchDivisionCount = matchPoints * 2 + 1
     const centerIndex = Math.floor(matchDivisionCount / 2)
+
+    this.elPoints.querySelectorAll('div').forEach(el => el.remove())
 
     for (let i = 0; i < matchDivisionCount; i++) {
       const elPoint = document.createElement('div')
@@ -43,21 +52,33 @@ export default class MatchInfo {
 
     const centerPoint = this.elPoints.querySelectorAll('div')[centerIndex]
 
+    const elsPoints = this.elPoints.querySelectorAll('div')
+
+    elsPoints.forEach(elPoint => elPoint.classList.remove('active'))
+
     centerPoint.classList.add('active')
+
+    this.score = 0
   }
 
   updateScore(score) {
+    this.score += score
+
+    if (score > 0) this.scene.stats.trinityCount += 1
+
     const { matchPoints } = this.scene
 
     const matchDivisionCount = matchPoints * 2 + 1
     const centerIndex = Math.floor(matchDivisionCount / 2)
 
-    const targetIndex = centerIndex + score
+    const targetIndex = centerIndex + this.score
 
-    const elPoints = this.elPoints.querySelectorAll('div')
-    const targetPoint = elPoints[targetIndex]
+    const elsPoints = this.elPoints.querySelectorAll('div')
+    const targetPoint = elsPoints[targetIndex]
 
-    elPoints.forEach(elPoint => elPoint.classList.remove('active'))
+    if (!targetPoint) return
+
+    elsPoints.forEach(elPoint => elPoint.classList.remove('active'))
 
     targetPoint.classList.add('active')
   }

@@ -17,7 +17,7 @@
     transition: opacity 0.2s;*/
 
     transform: translateY(-200%);
-    transition: all 0.3s;
+    transition: all 0.6s ease-in-out;
 }
 
 .claim-results.in {

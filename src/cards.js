@@ -21,18 +21,28 @@ export default class Cards {
 
     parent.appendChild(div)
 
-    this.takeTwelveWithTrinity()
+    this.takeNWithTrinity(9)
 
     this.autoTrueTrinity()
   }
 
-  takeTwelveWithTrinity() {
+  show() {
+    this.el.classList.remove('hidden')
+  }
+
+  hide() {
+    this.el.classList.add('hidden')
+  }
+
+  takeNWithTrinity(n) {
+    console.log('take ', n)
+
     while (!this.trinityExists()) {
       console.log('shuffled')
 
       shuffle(allCombos)
 
-      const combos = allCombos.slice(-12)
+      const combos = allCombos.slice(-n)
 
       if (this.cardsInPlay) {
         this.cardsInPlay.forEach(card => card.destroy())
@@ -96,8 +106,10 @@ export default class Cards {
   }
 
   onCardSelectChange = (updatedCard) => {
-    if (!this.scene.claimStruck) return
-
+    if (!this.scene.claimStruck) {
+      this.scene.claimButton.shake()
+      return
+    }
     console.log('updaeted card', updatedCard, this.scene.claimStruck)
 
     if (!this.trinityExists()) {
@@ -123,6 +135,22 @@ export default class Cards {
         this.scene.claimResults.showTrueTrinity()
         this.scene.matchInfo.updateScore(1)
 
+        if (this.scene.matchInfo.score === this.scene.matchPoints) {
+          console.log('match won!',)
+          this.scene.stats.duelsWon += 1
+
+          setTimeout(() => {
+            this.hide()
+            this.cardsInPlay.forEach(card => card.destroy())
+            this.cardsInPlay = []
+            this.scene.claimButton.hide()
+            this.scene.matchResults.showWinResults()
+            this.scene.questList.checkQuest()
+          }, 1000)
+
+          return
+        }
+
         setTimeout(() => {
           this.replaceTrinity(selectedCards)
           this.scene.claimButton.unstrikeClaim()
@@ -134,8 +162,23 @@ export default class Cards {
           this.scene.claimResults.showFalseTrinity()
           this.scene.matchInfo.updateScore(-1)
 
+          if (this.scene.matchInfo.score === -this.scene.matchPoints) {
+            console.log('match lost!',)
+
+            setTimeout(() => {
+              this.hide()
+              this.cardsInPlay.forEach(card => card.destroy())
+              this.cardsInPlay = []
+              this.scene.claimButton.hide()
+              this.scene.matchResults.showLossResults()
+            }, 1000)
+
+            return
+          }
+
           setTimeout(() => {
             this.scene.claimButton.unstrikeClaim()
+
             selectedCards.forEach((card) => {
               card.toggleSelected(true)
             })

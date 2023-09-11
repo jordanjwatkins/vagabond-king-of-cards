@@ -1,0 +1,90 @@
+.quest-list-wrap {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.6s;
+    border: 2vmin solid var(--game-color-2);
+    background: var(--paper-color);
+    box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.8);
+
+    &.hidden {
+        transform: translate3d(0, -100%, 0);
+    }
+
+    .heading {
+        color: #3c3758;
+        -webkit-text-stroke: 0.3vmin #0e153d;
+        font-size: 8vmin;
+        padding: 2vmin;
+        text-align: center;
+
+        width: 100%;
+
+        > div {
+            display: inline-block;
+        }
+
+        > div::first-letter {
+            font-size: 11vmin;
+        }
+    }
+
+    .quest-list {
+        padding: 8vmin;
+        padding-top: 0.8vmin;
+        width: 100%;
+        height: 100%;
+        font-size: 3vw;
+        text-align: left;
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        flex-direction: column;
+
+        > div {
+            display: flex;
+            width: 100%;
+            padding-left: 6vw;
+            margin-bottom: 2vmin;
+
+            &:before {
+                content: "";
+                display: block;
+                background: url(../assets/coin-suit.png);
+                background-size: cover;
+                aspect-ratio: 1;
+                height: 100%;
+                filter: drop-shadow(2px 4px 6px black);
+                mix-blend-mode: luminosity;
+                flex-shrink: 0;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+            }
+
+            &.complete {
+                text-decoration: line-through;
+            }
+
+            &.complete:before {
+                mix-blend-mode: unset;
+            }
+        }
+    }
+}
+
+@media (max-aspect-ratio: 1.3) and (min-aspect-ratio: 1 / 1.3) {
+    .quest-list-wrap {
+    }
+}
+
+@media (max-aspect-ratio: 1 / 1.3) {
+    .quest-list-wrap {
+    }
+}

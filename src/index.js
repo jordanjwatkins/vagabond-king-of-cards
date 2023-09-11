@@ -3,9 +3,13 @@ import ClaimButton from './claim-button'
 import ClaimResults from './claim-results'
 import ImageFx from './libs/ImageFx'
 import MatchInfo from './match-info'
+import MatchResults from './match-results'
+import QuestList from './quest-list'
+import QuestsButton from './quests-button'
 import './styles/app.css'
 import Timer from './timer'
 import title, { TitleCard } from './title'
+import Wheel from './wheel'
 
 // Live Reload
 new EventSource('/esbuild').addEventListener('change', () => location.reload())
@@ -34,6 +38,10 @@ fx.noise(10, 10)
 
 const scene = {
   claimStruck: false,
+  stats: {
+    trinityCount: 0,
+    duelsWon: 0,
+  }
 }
 
 const elGameWrap = document.createElement('div')
@@ -58,13 +66,17 @@ scene.titleCard = new TitleCard(elAside, scene)
 scene.matchInfo = new MatchInfo(elAside, scene)
 scene.claimButton = new ClaimButton(elAside, scene)
 scene.timer = new Timer(scene.claimButton.el, scene)
+scene.questsButton = new QuestsButton(elAside, scene)
 
 elGameWrap.appendChild(elAside)
 
-scene.claimResults = new ClaimResults(document.body, scene)
+scene.claimResults = new ClaimResults(elMain, scene)
+scene.matchResults = new MatchResults(elMain, scene)
+scene.questList = new QuestList(elMain, scene)
+scene.wheel = new Wheel(elMain, scene)
 
 title()
-
+/*
 const elWheel = document.createElement('div')
 
 elWheel.classList.add('wheel-wrap')
@@ -79,13 +91,13 @@ scene.showWheel = () => {
 
 scene.hideWheel = () => {
   elWheel.classList.remove('in')
-}
+}*/
 
-/*setTimeout(() => {
+/* setTimeout(() => {
  scene.showWheel()
 
   setTimeout(() => {
     scene.hideWheel()
   }, 1000)
 
-}, 1000)*/
+}, 1000) */

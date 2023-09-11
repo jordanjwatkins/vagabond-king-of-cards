@@ -28,6 +28,23 @@ export default class ClaimButton {
     })
   }
 
+  show() {
+    this.el.classList.remove('hidden')
+  }
+
+  hide() {
+    this.el.classList.add('hidden')
+  }
+
+  shake() {
+    this.el.classList.add('shake')
+
+    setTimeout(() => {
+      this.el.classList.remove('shake')
+
+    }, 1000);
+  }
+
   strikeClaim() {
     this.el.classList.add('struck')
     this.scene.claimStruck = true

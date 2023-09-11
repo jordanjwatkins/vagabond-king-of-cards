@@ -1,12 +1,22 @@
 .claim-button-wrap {
     height: 40%;
     padding: 2vmin 2vmin 2vmin 4vmin;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.6s;
+
+    &.hidden {
+        transform: translate3d(100%, 0, 0);
+    }
 
     &.struck {
         .claim-strike-button {
             /*transform: rotate3d(0, 0, 1, 15deg) translate(6%, -16%);*/
 
         }
+    }
+
+    &.shake {
+        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
     }
 }
 
@@ -54,7 +64,11 @@
     .claim-button-wrap {
         width: 20%;
         height: 100%;
-        padding: 4vmin 2vmin 2vmin 2vmin;
+        padding: 2vmin 2vmin 4vmin 2vmin;
+
+        &.hidden {
+            transform: translate3d(0, -100%, 0);
+        }
     }
 
     .claim-strike-button {

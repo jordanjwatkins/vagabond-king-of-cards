@@ -2,12 +2,16 @@
     display: flex;
     flex-wrap: wrap;
     width: 75%;
-    aspect-ratio: 1;
+    /*aspect-ratio: 1;*/
 
     justify-content: center;
     margin: 0 auto;
     /*transform: translateY(-50%);
     top: 50%;*/
+
+    &.hidden {
+        display: none;
+    }
 }
 
 .card-wrap {
@@ -23,7 +27,7 @@
     .grid-wrap {
         width: auto;
         height: 90%;
-        aspect-ratio: 1;
+        /*aspect-ratio: 1;*/
         flex-direction: column;
         /*align-items: center;*/
 
