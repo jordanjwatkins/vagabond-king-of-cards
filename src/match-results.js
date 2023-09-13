@@ -16,7 +16,7 @@ export default class MatchResults {
     this.elMatchResults = this.el.querySelector('.match-results')
 
     this.el.addEventListener('click', () => {
-      this.scene.wheel.show()
+      this.scene.matchList.show()
 
       setTimeout(() => {
         this.el.classList.remove('win', 'loss')

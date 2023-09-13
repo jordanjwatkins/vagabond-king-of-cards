@@ -1,11 +1,14 @@
 import Cards from './cards'
 import ClaimButton from './claim-button'
 import ClaimResults from './claim-results'
+import { GameWon } from './game-won'
 import ImageFx from './libs/ImageFx'
 import MatchInfo from './match-info'
+import MatchList from './match-list'
 import MatchResults from './match-results'
 import QuestList from './quest-list'
 import QuestsButton from './quests-button'
+import Renown from './renown'
 import './styles/app.css'
 import Timer from './timer'
 import title, { TitleCard } from './title'
@@ -52,6 +55,8 @@ document.body.appendChild(elGameWrap)
 
 const elMain = document.createElement('div')
 
+scene.elMain = elMain
+
 elMain.classList.add('main')
 
 scene.cards = new Cards(elMain, scene)
@@ -67,37 +72,16 @@ scene.matchInfo = new MatchInfo(elAside, scene)
 scene.claimButton = new ClaimButton(elAside, scene)
 scene.timer = new Timer(scene.claimButton.el, scene)
 scene.questsButton = new QuestsButton(elAside, scene)
+scene.renown = new Renown(elAside, scene)
 
 elGameWrap.appendChild(elAside)
 
 scene.claimResults = new ClaimResults(elMain, scene)
 scene.matchResults = new MatchResults(elMain, scene)
-scene.questList = new QuestList(elMain, scene)
 scene.wheel = new Wheel(elMain, scene)
+scene.matchList = new MatchList(elMain, scene)
+scene.questList = new QuestList(elMain, scene)
 
 title()
-/*
-const elWheel = document.createElement('div')
 
-elWheel.classList.add('wheel-wrap')
-
-elWheel.innerHTML = '<div class="wheel-card"><div class="travel-text">Traveling yonder...</div></div>'
-
-document.body.appendChild(elWheel)
-
-scene.showWheel = () => {
-  elWheel.classList.add('in')
-}
-
-scene.hideWheel = () => {
-  elWheel.classList.remove('in')
-}*/
-
-/* setTimeout(() => {
- scene.showWheel()
-
-  setTimeout(() => {
-    scene.hideWheel()
-  }, 1000)
-
-}, 1000) */
+scene.gameWon = new GameWon(document.body, scene);

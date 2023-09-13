@@ -74,24 +74,83 @@ export default class QuestList {
 function initQuests() {
   return [
     {
-      labelText: 'Find first trinity.',
+      labelText: 'Find first trinity',
       init(scene) {
         this.startTrinityCount = scene.stats.trinityCount
       },
       check(scene) {
-        console.log('check first trinity quest!!!!', scene.stats.trinityCount, this.startTrinityCount)
-
         return scene.stats.trinityCount > this.startTrinityCount
       },
       completed: false,
     },
     {
-      labelText: 'Win a duel.',
+      labelText: 'Win a fool duel',
       init(scene) {
         this.startDuelsWon = scene.stats.duelsWon
       },
       check(scene) {
         return scene.stats.duelsWon > this.startDuelsWon
+      },
+      completed: false,
+    },
+    {
+      labelText: 'Win a 12 card fool duel',
+      init(scene) {
+        this.startDuelsWon = scene.stats.duelsWon
+      },
+      check(scene) {
+        return scene.stats.foolsDuels12Won > 0
+      },
+      completed: false,
+    },
+    {
+      labelText: 'Win 3 novice duels',
+      init(scene) {
+        this.startDuelsWon = scene.stats.duelsWon
+      },
+      check(scene) {
+        return scene.stats.noviceDuelsWon > 0
+      },
+      completed: false,
+    },
+    {
+      labelText: 'Win 5 adept duels',
+      init(scene) {
+        this.startDuelsWon = scene.stats.duelsWon
+      },
+      check(scene) {
+        return scene.stats.adeptDuelsWon > 0
+      },
+      completed: false,
+    },
+    {
+      labelText: 'Win 10 master duels',
+      init(scene) {
+
+      },
+      check(scene) {
+        return scene.stats.masterDuelsWon > 0
+      },
+      completed: false,
+    },
+    {
+      labelText: 'Defeat the king',
+      init(scene) {
+
+      },
+      check(scene) {
+        return scene.stats.kingsDuelsWon > 0
+      },
+      completed: false,
+    },
+
+    {
+      labelText: 'Defeat the king (12 cards)',
+      init(scene) {
+
+      },
+      check(scene) {
+        return scene.stats.kingsDuels12Won > 0
       },
       completed: false,
     },

@@ -14,10 +14,14 @@ export default class ClaimButton {
 
     this.el.innerHTML = '<div class="claim-strike-button"><div>Strike</div><div>Claim</div></div>'
 
+    this.hide()
+
     this.el.addEventListener('click', () => {
+      if (this.scene.claimBlocked) return
       console.log('claim click',)
 
       this.strikeClaim()
+
       // knote.mainGain.gain.linearRampToValueAtTime(NEAR_ZERO, knote.audioContext.currentTime + 4)
 
       api.fadeOut()
@@ -47,11 +51,15 @@ export default class ClaimButton {
 
   strikeClaim() {
     this.el.classList.add('struck')
+    api.cardNoise()
     this.scene.claimStruck = true
+    this.scene.cards.unlock()
+    this.scene.matchInfo.stopOpponentWait()
   }
 
   unstrikeClaim() {
     this.el.classList.remove('struck')
     this.scene.claimStruck = false
+    this.scene.cards.lock()
   }
 }

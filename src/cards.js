@@ -1,3 +1,4 @@
+import { api } from './audio'
 import Card from './card'
 import { getAllCombos } from './get-all-combos'
 
@@ -21,9 +22,12 @@ export default class Cards {
 
     parent.appendChild(div)
 
-    this.takeNWithTrinity(9)
+    //this.takeNWithTrinity(6)
+    //this.el.classList.add('fs-6')
 
     this.autoTrueTrinity()
+
+    this.lock()
   }
 
   show() {
@@ -36,6 +40,7 @@ export default class Cards {
 
   takeNWithTrinity(n) {
     console.log('take ', n)
+    //n = 12
 
     while (!this.trinityExists()) {
       console.log('shuffled')
@@ -55,7 +60,7 @@ export default class Cards {
   }
 
   replaceTrinity(trinityCards) {
-    const notSelectedCards = this.cardsInPlay.filter(card => !card.selected)
+    const notSelectedCards = this.cardsInPlay.filter(card => !card.selected && trinityCards.indexOf(card) < 0)
     const notSelectedCombos = notSelectedCards.map(card => card.combo)
 
     const availableCombos = allCombos.filter(combo => !notSelectedCombos.includes(combo))
@@ -105,9 +110,30 @@ export default class Cards {
     // const replacementCards = combos.map(combo => new )
   }
 
+  lock() {
+    this.scene.elMain.classList.add('lock')
+  }
+
+  unlock() {
+    this.scene.elMain.classList.remove('lock')
+  }
+
+  shake() {
+    this.scene.elMain.classList.add('shake')
+
+    setTimeout(() => {
+      this.scene.elMain.classList.remove('shake')
+    }, 1000);
+  }
+
   onCardSelectChange = (updatedCard) => {
     if (!this.scene.claimStruck) {
       this.scene.claimButton.shake()
+      this.shake()
+      api.cardNoise()
+      setTimeout(() => {
+        api.cardNoise()
+      }, 200)
       return
     }
     console.log('updaeted card', updatedCard, this.scene.claimStruck)
@@ -135,18 +161,8 @@ export default class Cards {
         this.scene.claimResults.showTrueTrinity()
         this.scene.matchInfo.updateScore(1)
 
-        if (this.scene.matchInfo.score === this.scene.matchPoints) {
-          console.log('match won!',)
-          this.scene.stats.duelsWon += 1
-
-          setTimeout(() => {
-            this.hide()
-            this.cardsInPlay.forEach(card => card.destroy())
-            this.cardsInPlay = []
-            this.scene.claimButton.hide()
-            this.scene.matchResults.showWinResults()
-            this.scene.questList.checkQuest()
-          }, 1000)
+        if (this.scene.matchInfo.score >= this.scene.matchPoints) {
+         this.winMatch()
 
           return
         }
@@ -163,15 +179,7 @@ export default class Cards {
           this.scene.matchInfo.updateScore(-1)
 
           if (this.scene.matchInfo.score === -this.scene.matchPoints) {
-            console.log('match lost!',)
-
-            setTimeout(() => {
-              this.hide()
-              this.cardsInPlay.forEach(card => card.destroy())
-              this.cardsInPlay = []
-              this.scene.claimButton.hide()
-              this.scene.matchResults.showLossResults()
-            }, 1000)
+            this.loseMatch()
 
             return
           }
@@ -186,6 +194,46 @@ export default class Cards {
         }, 300)
       }
     }
+  }
+
+  loseMatch() {
+    console.log('match lost!',)
+    this.scene.stats.duelsLost ||= 0
+    this.scene.stats.duelsLost += 1
+    this.scene.matchInfo.stopOpponentWait()
+    this.scene.claimBlocked = false
+
+    setTimeout(() => {
+      this.hide()
+      this.cardsInPlay.forEach(card => card.destroy())
+      this.cardsInPlay = []
+      this.scene.claimButton.hide()
+      this.scene.matchResults.showLossResults()
+    }, 1000)
+  }
+
+  winMatch() {
+    console.log('match won! - points', Date.now() - this.scene.matchList.match.startTime)
+
+    this.scene.stats.duelsWon += 1
+    this.scene.matchInfo.stopOpponentWait()
+    this.scene.claimBlocked = false
+
+    setTimeout(() => {
+      this.hide()
+      this.cardsInPlay.forEach(card => card.destroy())
+      this.cardsInPlay = []
+      this.scene.claimButton.hide()
+
+      this.scene.questList.checkQuest()
+
+      if (this.scene.matchList.match.onWin) {
+        this.scene.matchList.match.onWin(this.scene)
+        this.scene.matchList.show()
+      } else {
+        this.scene.matchResults.showWinResults()
+      }
+    }, 1000)
   }
 
   isTrinity(cards) {
@@ -267,7 +315,8 @@ export default class Cards {
   autoTrueTrinity() {
     console.log('auto true trinity',)
 
-    document.addEventListener('keypress', () => {
+    document.addEventListener('keypress', (event) => {
+      if (event.key !== ' ') return
       this.scene.claimStruck = true
       console.log('auto trinity go!',)
       const trinity = this.findAllTrinity()[0]

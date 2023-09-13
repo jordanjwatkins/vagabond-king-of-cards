@@ -1,4 +1,4 @@
-import audio from './audio'
+import audio, { api } from './audio'
 
 export const titleInnerHtml = '<div class="title-text"><span class="v">Vagabond</span><br><span class="king">King</span> <span class="of">of</span> <span class="cards">Cards</span></div>'
 
@@ -13,6 +13,22 @@ export default () => {
 
   elTitle.addEventListener('click', () => {
     audio({})
+
+    document.addEventListener('visibilitychange', (event) => {
+      console.log('event', event)
+      if (document.visibilityState === "visible") {
+        console.log('play',)
+
+        api.fadeIn()
+
+        //backgroundMusic.play();
+      } else {
+        console.log('stop',)
+        api.fadeOut()
+        //backgroundMusic.pause();
+      }
+
+    })
 
     elTitle.style.display = 'none'
   })

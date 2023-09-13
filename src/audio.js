@@ -30,6 +30,9 @@ export default config => new Promise((resolve) => {
 
     songGainNode.connect(knote.mainGain)
 
+    api.cardNoise = () => knote.cardNoise()
+
+
     //knote.fireNoise()
 
     //knote.cardNoise()
@@ -189,6 +192,8 @@ export default config => new Promise((resolve) => {
       setTimeout(() => {
         medievalLoop2(knote.audioContext.currentTime + 1000 * 0.5)
       }, beatDelay(beatCount - 1) * 1000)
+
+      return true
     }
 
     config.medievalLoop2 ||= medievalLoop2(now)

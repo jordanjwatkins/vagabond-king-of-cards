@@ -15,12 +15,16 @@ export default class Wheel {
 
     this.elWheel = this.el.querySelector('.wheel')
 
-    this.elWheel.innerHTML = '<div class="wheel-card"><div class="travel-text">Traveling yonder...</div></div>'
+    this.elWheel.innerHTML = '<div class="wheel-card"><div class="travel-text">Traveling hither...</div><div class="destination-text"></div></div>'
+
+    this.elDestinationText = this.el.querySelector('.destination-text')
 
     this.hide()
 
+    //this.show()
+
     this.el.addEventListener('click', () => {
-      this.scene.cards.takeNWithTrinity(9)
+      /*this.scene.cards.takeNWithTrinity(9)
       this.scene.cards.show()
       this.scene.claimButton.show()
       this.scene.claimButton.unstrikeClaim()
@@ -29,15 +33,20 @@ export default class Wheel {
       this.scene.matchPoints = 2
       this.scene.matchInfo.setMatchConfig({
         matchPoints: 2
-      })
+      })*/
 
-      setTimeout(() => {
+      //this.scene.matchStart.show()
+
+      /*setTimeout(() => {
         this.hide()
-      }, 500)
+        this.scene.questsButton.show()
+      }, 500)*/
     })
   }
 
-  show() {
+  show(destination = 'somewhere nearby') {
+    this.elDestinationText.innerText = `...to ${destination}.`
+
     this.el.classList.remove('hidden')
   }
 

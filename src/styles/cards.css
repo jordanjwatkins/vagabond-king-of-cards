@@ -1,8 +1,9 @@
 .grid-wrap {
     display: flex;
     flex-wrap: wrap;
-    width: 75%;
-    /*aspect-ratio: 1;*/
+    width: auto;
+    height: 90%;
+    flex-direction: column;
 
     justify-content: center;
     margin: 0 auto;
@@ -11,6 +12,13 @@
 
     &.hidden {
         display: none;
+    }
+
+    .card-wrap {
+        max-height: calc(33% - 2vmin);
+        height: calc(100% - 2vmin);
+        width: auto;
+        max-width: unset;
     }
 }
 
@@ -21,21 +29,142 @@
     width: calc(100% - 2vmin);
 }
 
+@media (min-aspect-ratio: $medMaxAR) {
+    .grid-wrap.fs-4 .card-wrap {
+        max-height: calc(50% - 2vmin);
+    }
+}
 
-@media (min-aspect-ratio: 1.3) {
-    /* .column-direction */
+@media (min-aspect-ratio: 1.8) {
+    .grid-wrap.fs-9 .card-wrap {
+        max-height: calc(40% - 2vmin);
+    }
+
+    .grid-wrap.fs-6 .card-wrap {
+        max-height: calc(48% - 2vmin);
+    }
+}
+
+@media (min-aspect-ratio: 2.5) {
+    .grid-wrap.fs-12 .card-wrap {
+        max-height: calc(45% - 2vmin);
+    }
+
+    .grid-wrap.fs-4 .card-wrap {
+        max-height: calc(51% - 2vmin);
+    }
+}
+
+@media (max-aspect-ratio: $medMaxAR) {
     .grid-wrap {
-        width: auto;
-        height: 90%;
-        /*aspect-ratio: 1;*/
-        flex-direction: column;
-        /*align-items: center;*/
+        flex-direction: row;
+        width: 100%;
+        height: auto;
 
         .card-wrap {
-            max-height: calc(33% - 2vmin);
+            height: auto;
+            width: 100%;
+            max-width: calc(26% - 2vmin);
+        }
+    }
+
+    .grid-wrap.fs-6 {
+        width: 84vmin;
+    }
+
+    .grid-wrap.fs-6 .card-wrap {
+        max-height: calc(48% - 2vmin);
+        max-height: none;
+    }
+
+    .grid-wrap.fs-4 .card-wrap {
+        max-width: calc(23% - 2vmin);
+    }
+}
+
+@media (max-aspect-ratio: 1) {
+    .grid-wrap {
+        width: 63vmax;
+        /* flex-direction: column;
+        width: auto;
+        height: 100%;*/
+        .card-wrap {
+            height: auto;
+            width: 100%;
+            max-width: calc(25% - 2vmin);
+            max-height: unset;
+        }
+
+        /* .card-wrap {
+            max-height: calc(23% - 2vmin);
             height: calc(100% - 2vmin);
             width: auto;
             max-width: unset;
-        }
+
+        }*/
     }
+
+    .grid-wrap.fs-6 {
+        width: 64vmax;
+    }
+
+    .grid-wrap.fs-6 .card-wrap {
+        max-width: calc(26% - 2vmin);
+    }
+
+    .grid-wrap.fs-4 .card-wrap {
+        max-width: calc(35% - 2vmin);
+    }
+}
+
+@media (max-aspect-ratio: 1 / $medMaxAR) {
+    .grid-wrap {
+        width: 50vmax;
+        /* flex-direction: column;
+        width: auto;
+        height: 100%;*/
+        .card-wrap {
+            height: auto;
+            width: 100%;
+            max-width: calc(26% - 2vmin);
+        }
+
+        /* .card-wrap {
+            max-height: calc(23% - 2vmin);
+            height: calc(100% - 2vmin);
+            width: auto;
+            max-width: unset;
+
+        }*/
+    }
+
+    .grid-wrap.fs-9 .card-wrap {
+        max-width: calc(33% - 2vmin);
+    }
+
+    .grid-wrap.fs-4 .card-wrap {
+        max-width: calc(35% - 2vmin);
+    }
+}
+
+@media (max-aspect-ratio: 1 / 1.8) {
+    .grid-wrap.fs-9 .card-wrap {
+        max-width: calc(29% - 2vmin);
+    }
+
+    .grid-wrap.fs-6 .card-wrap {
+        max-width: calc(34% - 2vmin);
+    }
+}
+
+@media (max-aspect-ratio: 1 / 3.3) {
+    .grid-wrap.fs-9 .card-wrap {
+        max-width: calc(38% - 2vmin);
+    }
+
+    .grid-wrap.fs-12 .card-wrap {
+        max-width: calc(34% - 2vmin);
+    }
+
+
 }

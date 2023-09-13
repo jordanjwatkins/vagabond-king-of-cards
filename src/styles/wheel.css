@@ -10,7 +10,7 @@
     transition: all 0.6s;
 
     &.hidden {
-        transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -130%, 0);
     }
 
     .wheel {
@@ -50,40 +50,82 @@
             image-rendering: pixelated;
             z-index: 100;
             position: absolute;
-            top: 55%;
+            top: 48%;
             left: 50%;
             transform: translate3d(-50%, -50%, 0) rotate(0deg);
             animation: wheelturn 5.3s steps(30, end) infinite reverse;
             width: 50vmin;
             aspect-ratio: 1;
         }
+
+        .travel-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, -530%);
+        }
+
+        .destination-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, 370%);
+        }
     }
 
 }
 
-@media (max-aspect-ratio: 1.3) {
+@media (max-aspect-ratio: $medMaxAR) {
     .wheel-wrap {
         .wheel-card {
             &:before {
                 width: 30vmin;
             }
+
+            .travel-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                transform: translate(-50%, -370%);
+            }
+
+            .destination-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                transform: translate(-50%, 240%);
+            }
         }
     }
 
-    .travel-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%;
-        transform: translate(-50%, -290%);
+
+}
+
+@media (max-aspect-ratio: $medMaxAR) and (min-aspect-ratio: 1 / 1.3) {
+
+
+}
+
+@media (max-aspect-ratio: 1 / $medMaxAR) {
+    .wheel-wrap .wheel-card {
+        .travel-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, -490%);
+        }
+
+        .destination-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, 290%);
+        }
     }
-}
-
-@media (max-aspect-ratio: 1.3) and (min-aspect-ratio: 1 / 1.3) {
-
-
-}
-
-@media (max-aspect-ratio: 1 / 1.3) {
-
 }

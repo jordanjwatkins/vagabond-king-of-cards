@@ -76,6 +76,9 @@ export default class Timer {
   }
 
   timeUp() {
+    console.log('time up',)
+    this.scene.claimBlocked = true
+
     setTimeout(() => {
       const { cardsInPlay } = this.scene.cards
       const selectedCards = cardsInPlay.filter(card => card.selected)
@@ -83,12 +86,30 @@ export default class Timer {
       cardsInPlay[0].failSound()
       this.scene.claimResults.showMissedTrinity()
       this.scene.matchInfo.updateScore(-1)
+      this.scene.claimButton.unstrikeClaim()
+
+      if (this.scene.matchInfo.score <= -this.scene.matchPoints) {
+        console.log('match lost! - time up',)
+
+        this.scene.cards.loseMatch()
+
+        /*setTimeout(() => {
+          this.scene.cards.hide()
+          this.scene.cards.cardsInPlay.forEach(card => card.destroy())
+          this.scene.cards.cardsInPlay = []
+          this.scene.claimButton.hide()
+          this.scene.matchResults.showLossResults()
+        }, 1000)*/
+
+        return
+      }
 
       setTimeout(() => {
-        this.scene.claimButton.unstrikeClaim()
         selectedCards.forEach((card) => {
           card.toggleSelected(true)
         })
+
+        this.scene.claimBlocked = false
       }, 300)
     }, 300)
   }

@@ -1,16 +1,16 @@
 .claim-button-wrap {
     height: 40%;
-    padding: 2vmin 2vmin 2vmin 4vmin;
+    padding: 2vmin 4vmin 2vmin 2vmin;
     transform: translate3d(0, 0, 0);
     transition: all 0.6s;
 
     &.hidden {
-        transform: translate3d(100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
     }
 
     &.struck {
         .claim-strike-button {
-            /*transform: rotate3d(0, 0, 1, 15deg) translate(6%, -16%);*/
+            transform: rotate3d(0, 0, 1, 11deg);
 
         }
     }
@@ -60,7 +60,7 @@
     }
 }
 
-@media (max-aspect-ratio: 1.3) {
+@media (max-aspect-ratio: $medMaxAR) {
     .claim-button-wrap {
         width: 20%;
         height: 100%;
@@ -94,7 +94,7 @@
     }
 }
 
-@media (max-aspect-ratio: 1.3) and (min-aspect-ratio: 1 / 1.3) {
+@media (max-aspect-ratio: $medMaxAR) and (min-aspect-ratio: 1 / 1.3) {
 
 }
 
