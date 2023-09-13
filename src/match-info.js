@@ -91,26 +91,27 @@ export default class MatchInfo {
 
     targetPoint.classList.add('active')
 
-    document.addEventListener('keypress', (event) => {
+    /*document.addEventListener('keypress', (event) => {
       if (event.key === 's') console.log('press s',)
 
       if (event.key === 's' && !this.scene.claimBlocked) this.stealTrinity()
 
-    })
+    })*/
   }
 
   startOpponentWait() {
-    console.log('SE$T TIMEOUIT',)
+    //console.log('SE$T TIMEOUIT',)
     this.scene.claimBlocked = false
 
     clearTimeout(this.opponentUpdateTimeout)
 
     const { fieldSize, opponentSkill } = this.matchConfig
 
-    const waitTime = 10 * fieldSize / opponentSkill
+    let waitTime = 8 * fieldSize * 1.3 / opponentSkill
 
-    console.log('wait time', waitTime)
+    //console.log('wait time', waitTime)
 
+    if (!opponentSkill) waitTime = 300
 
     this.opponentUpdateTimeout = setTimeout(() => {
       this.stealTrinity()
@@ -118,7 +119,7 @@ export default class MatchInfo {
   }
 
   stopOpponentWait() {
-    console.log('STOOP TIMEOUIT',)
+    //console.log('STOOP TIMEOUIT',)
 
     clearTimeout(this.opponentUpdateTimeout)
   }
@@ -126,7 +127,7 @@ export default class MatchInfo {
   stealTrinity() {
     if (this.scene.claimBlocked) return
 
-    console.log('YOINK',)
+    //console.log('YOINK',)
 
     if (this.scene.cards.cardsInPlay[0]) this.scene.cards.cardsInPlay[0].failSound()
     this.scene.claimResults.showStolenTrinity()

@@ -7,9 +7,9 @@
     "dev": "node esbuild.js",
     "prod": "npm run build-prod && npm run eslint && npm run preview-prod",
     "prod:skip-lint": "npm run build-prod && npm run preview-prod",
-    "pack": "bestzip build/bundle.zip build/*",
+    "pack": "cd build && bestzip build.zip *",
     "eslint": "eslint src/**/*.js",
-    "build-prod": "rm -rf build && node ./esbuild-prod.js && npm run pack",
+    "build-prod": "rm -rf build/* && node ./esbuild-prod.js && npm run pack",
     "preview-prod": "cd build && http-server -p 3030"
   },
   "devDependencies": {

@@ -1,3 +1,5 @@
+import shuffle from "./shuffle";
+
 type MatchConfig = {
   matchPoints: number;
   fieldSize: number;
@@ -135,7 +137,8 @@ export default class MatchList {
   }
 
   initMatch(matchConfig: MatchConfig) {
-    this.scene.wheel.show()
+    shuffle(cities)
+    this.scene.wheel.show(cities[0])
     //this.scene.questsButton.hide()
 
     setTimeout(() => {

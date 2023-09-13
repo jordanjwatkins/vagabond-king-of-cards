@@ -4,12 +4,6 @@
     --game-color-1: #9e1717;
     --game-color-2: #4775b5;
     --game-color-3: #2e2e79;
-
-    --breakpoints: {
-        "narrow": "(min-width: 300px)",
-        "medium": "(min-width: 600px)",
-        "not-wide": "(max-aspect-ratio: $medMaxAR)"
-    }
 }
 
 html,

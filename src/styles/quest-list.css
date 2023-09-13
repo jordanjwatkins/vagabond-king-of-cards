@@ -1,4 +1,7 @@
 .quest-list-wrap {
+    display: none;
+}
+/*.quest-list-wrap {
     height: 100%;
     width: 100%;
     position: absolute;
@@ -103,3 +106,4 @@
         }
     }
 }
+*/

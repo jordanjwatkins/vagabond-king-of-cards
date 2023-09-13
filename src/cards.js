@@ -25,7 +25,7 @@ export default class Cards {
     //this.takeNWithTrinity(6)
     //this.el.classList.add('fs-6')
 
-    this.autoTrueTrinity()
+    //this.autoTrueTrinity()
 
     this.lock()
   }
@@ -39,12 +39,9 @@ export default class Cards {
   }
 
   takeNWithTrinity(n) {
-    console.log('take ', n)
     //n = 12
 
     while (!this.trinityExists()) {
-      console.log('shuffled')
-
       shuffle(allCombos)
 
       const combos = allCombos.slice(-n)
@@ -65,7 +62,7 @@ export default class Cards {
 
     const availableCombos = allCombos.filter(combo => !notSelectedCombos.includes(combo))
 
-    console.log('available combos', availableCombos.length, allCombos.length)
+    //console.log('available combos', availableCombos.length, allCombos.length)
 
     shuffle(availableCombos)
 
@@ -75,7 +72,7 @@ export default class Cards {
     const allTrinity = this.findAllTrinityInCombos(combosInPlay)
 
     if (allTrinity.length) {
-      console.log('trinity exists in combos', allTrinity)
+      //console.log('trinity exists in combos', allTrinity)
 
       const addedCards = trinityCards.map((trinityCard, index) => {
         const card = new Card(
@@ -87,7 +84,7 @@ export default class Cards {
 
         // trinityCard.replace(addedCombos[index])
 
-        console.log('parent node', trinityCard.el.parentNode.replaceChild)
+        //console.log('parent node', trinityCard.el.parentNode.replaceChild)
 
         trinityCard.el.parentNode.replaceChild(card.el, trinityCard.el)
 
@@ -98,9 +95,9 @@ export default class Cards {
 
       // this.cardsInPlay = [...notSelectedCards, ...addedCards]
 
-      console.log('find trinity', this.findAllTrinity())
+      //console.log('find trinity', this.findAllTrinity())
     } else {
-      console.log('no trinity in combos')
+      //console.log('no trinity in combos')
 
       return this.replaceTrinity(trinityCards)
     }
@@ -136,7 +133,7 @@ export default class Cards {
       }, 200)
       return
     }
-    console.log('updaeted card', updatedCard, this.scene.claimStruck)
+    //console.log('updaeted card', updatedCard, this.scene.claimStruck)
 
     if (!this.trinityExists()) {
       console.log('no trinity!!!')
@@ -155,7 +152,7 @@ export default class Cards {
 
     if (selectedCards.length === 3) {
       if (this.isTrinity(selectedCards)) {
-        console.log('true trinity!')
+        //console.log('true trinity!')
 
         updatedCard.successSound()
         this.scene.claimResults.showTrueTrinity()
@@ -172,7 +169,7 @@ export default class Cards {
           this.scene.claimButton.unstrikeClaim()
         }, 1000)
       } else {
-        console.log('false trinity!')
+        //console.log('false trinity!')
         setTimeout(() => {
           updatedCard.failSound()
           this.scene.claimResults.showFalseTrinity()
@@ -197,7 +194,7 @@ export default class Cards {
   }
 
   loseMatch() {
-    console.log('match lost!',)
+    //console.log('match lost!',)
     this.scene.stats.duelsLost ||= 0
     this.scene.stats.duelsLost += 1
     this.scene.matchInfo.stopOpponentWait()
@@ -213,7 +210,7 @@ export default class Cards {
   }
 
   winMatch() {
-    console.log('match won! - points', Date.now() - this.scene.matchList.match.startTime)
+    //console.log('match won! - points', Date.now() - this.scene.matchList.match.startTime)
 
     this.scene.stats.duelsWon += 1
     this.scene.matchInfo.stopOpponentWait()
@@ -225,7 +222,7 @@ export default class Cards {
       this.cardsInPlay = []
       this.scene.claimButton.hide()
 
-      this.scene.questList.checkQuest()
+      if (this.scene.questList) this.scene.questList.checkQuest()
 
       if (this.scene.matchList.match.onWin) {
         this.scene.matchList.match.onWin(this.scene)
@@ -318,16 +315,12 @@ export default class Cards {
     document.addEventListener('keypress', (event) => {
       if (event.key !== ' ') return
       this.scene.claimStruck = true
-      console.log('auto trinity go!',)
+
       const trinity = this.findAllTrinity()[0]
 
 
       if (trinity) {
-        console.log('trinit!!!!',)
-
         trinity.forEach((cardIndex) => {
-          console.log('changing!!!!',)
-
           this.onCardSelectChange(this.cardsInPlay[cardIndex])
         })
       }
@@ -356,87 +349,3 @@ function combinations(pick, from) {
 
   return allCombos
 }
-/*
-function combinationsOld(pick, from) {
-  const sortedPerms = permutations(pick, from).map((item) => {
-    item.sort()
-
-    return item
-  })
-
-  const sortedPermsStringified = sortedPerms.map(perm => perm.join('-'))
-
-  const filtered = sortedPerms.filter(
-    (perm, index) => sortedPermsStringified.indexOf(perm.join('-')) === index
-  )
-
-  return filtered
-}
-
-function permutations(pick, from) {
-  const allCombos = []
-
-  if (pick === 0) return allCombos
-
-  from.forEach((item, index) => {
-    if (pick === 1) {
-      allCombos.push([item])
-
-      return
-    }
-
-    const combos = combinations(pick - 1, allBut(from, index))
-
-    combos.forEach((combo) => {
-      allCombos.push([item, ...combo])
-    })
-  })
-
-  return allCombos
-}
-
-const iterationCount = 0
-
-export function perms(items) {
-  // console.log('iteration count', iterationCount)
-  if (iterationCount > 100) {
-    // console.log('items',)
-  }
-
-  if (!items.length) return []
-  if (items.length === 1) return [...items]
-
-  const allPerms = []
-
-  // console.log('itsm',items)
-
-  items.forEach((item, index) => {
-    const rest = allBut(items, index)
-    // console.log('perms1',rest)
-
-    if (!rest.length) {
-      console.log('bad rest', rest)
-    }
-
-    const out = perms(rest)
-
-    out.forEach((perm, index) => {
-      if (!perm.length) {
-        console.log('bad perm', index, out, perm)
-
-        perm = [perm]
-      }
-
-      allPerms.push([item, ...perm])
-    })
-  })
-
-  return allPerms
-}
-
-
-// Create a new array while omitting a single item from source array
-function allBut(array, index) {
-  return array.filter((_v, k) => k !== index)
-}
-*/

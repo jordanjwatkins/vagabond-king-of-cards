@@ -6,9 +6,9 @@ import ImageFx from './libs/ImageFx'
 import MatchInfo from './match-info'
 import MatchList from './match-list'
 import MatchResults from './match-results'
-import QuestList from './quest-list'
-import QuestsButton from './quests-button'
-import Renown from './renown'
+//import QuestList from './quest-list'
+//import QuestsButton from './quests-button'
+//import Renown from './renown'
 import './styles/app.css'
 import Timer from './timer'
 import title, { TitleCard } from './title'
@@ -71,8 +71,8 @@ scene.titleCard = new TitleCard(elAside, scene)
 scene.matchInfo = new MatchInfo(elAside, scene)
 scene.claimButton = new ClaimButton(elAside, scene)
 scene.timer = new Timer(scene.claimButton.el, scene)
-scene.questsButton = new QuestsButton(elAside, scene)
-scene.renown = new Renown(elAside, scene)
+//scene.questsButton = new QuestsButton(elAside, scene)
+//scene.renown = new Renown(elAside, scene)
 
 elGameWrap.appendChild(elAside)
 
@@ -80,7 +80,7 @@ scene.claimResults = new ClaimResults(elMain, scene)
 scene.matchResults = new MatchResults(elMain, scene)
 scene.wheel = new Wheel(elMain, scene)
 scene.matchList = new MatchList(elMain, scene)
-scene.questList = new QuestList(elMain, scene)
+//scene.questList = new QuestList(elMain, scene)
 
 title()
 
